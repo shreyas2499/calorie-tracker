@@ -73,6 +73,18 @@ def test_summary_reports_change_averages_and_streaks(client, user):
     assert "decreased by 1.0 kg" in data["summary_text"]
 
 
+def test_summary_reports_the_dates_of_the_actual_weight_readings(client, user):
+    _seed(client, [("2026-07-10", None, None, 80.0, 80.0), ("2026-07-12", None, None, 79.0, 79.0)])
+    data = client.get(
+        "/api/v1/analytics/summary?start_date=2026-07-01&end_date=2026-07-31"
+    ).get_json()["data"]
+
+    # Not the window bounds.
+    assert data["starting_weight_date"] == "2026-07-10"
+    assert data["latest_weight_date"] == "2026-07-12"
+    assert data["start_date"] == "2026-07-01"
+
+
 def test_summary_counts_missing_days(client, user):
     _seed(client, [("2026-07-01", 2000, 0, None, None)])
     data = client.get(

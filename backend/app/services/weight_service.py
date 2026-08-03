@@ -63,7 +63,7 @@ def upsert(
 
 def _sync_current_weight(user: User) -> None:
     """Keep ``User.current_weight_kg`` aligned with the newest weight entry."""
-    from app.services import maintenance_service
+    from app.services import calorie_service, maintenance_service
 
     latest = (
         WeightEntry.query.filter_by(user_id=user.id)
@@ -76,6 +76,9 @@ def _sync_current_weight(user: User) -> None:
         return
     user.current_weight_kg = latest.average_weight_kg
     maintenance_service.recalculate(user, effective_date=latest.entry_date)
+    # The target for that date just changed, so the calorie entry recorded on
+    # the same date must not keep the superseded snapshot.
+    calorie_service.refresh_maintenance_snapshot(user, latest.entry_date)
 
 
 def delete(user: User, entry_id: int) -> None:

@@ -23,6 +23,9 @@ const SERIES = [
   { key: "maintenance_calories", name: "Maintenance", colour: "#b45309", dashed: true },
 ] as const;
 
+/** Above this many tracked days, point markers become visual noise. */
+const DOT_THRESHOLD = 31;
+
 function CalorieTooltip({ active, payload }: { active?: boolean; payload?: Array<{ payload: CaloriePoint }> }) {
   if (!active || !payload?.length) return null;
   const point = payload[0].payload;
@@ -55,6 +58,10 @@ interface CalorieChartProps {
 }
 
 export function CalorieChart({ series, showBalanceBars = true }: CalorieChartProps) {
+  // A line through a single point draws nothing, so show markers whenever the
+  // series is sparse. Dense series stay clean.
+  const dot = series.tracked_days <= DOT_THRESHOLD ? { r: 2.5 } : false;
+
   if (!series.tracked_days) {
     return (
       <EmptyState
@@ -97,7 +104,7 @@ export function CalorieChart({ series, showBalanceBars = true }: CalorieChartPro
               stroke={item.colour}
               strokeWidth={2}
               strokeDasharray={"dashed" in item && item.dashed ? "5 4" : undefined}
-              dot={false}
+              dot={dot}
               connectNulls
               isAnimationActive={false}
             />

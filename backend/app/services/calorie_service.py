@@ -26,6 +26,7 @@ __all__ = [
     "upsert",
     "delete",
     "list_entries",
+    "refresh_maintenance_snapshot",
 ]
 
 
@@ -35,6 +36,21 @@ def apply_calculations(entry: CalorieEntry, maintenance_calories: int) -> Calori
     entry.net_calories = calculate_net_calories(entry.calories_consumed, entry.calories_burned)
     entry.calorie_balance = calculate_calorie_balance(entry.net_calories, entry.maintenance_calories)
     entry.estimated_weight_change_kg = estimate_weight_change_kg(entry.calorie_balance)
+    return entry
+
+
+def refresh_maintenance_snapshot(user: User, entry_date: date) -> CalorieEntry | None:
+    """Re-stamp one date's entry with the user's current active target.
+
+    Used when the target *for that date* changes - e.g. the weight recorded on
+    that date was edited. Every other date keeps its original snapshot, so
+    history still does not move.
+    """
+    entry = get_by_date(user, entry_date)
+    if entry is None:
+        return None
+    apply_calculations(entry, user.active_maintenance_calories)
+    db.session.commit()
     return entry
 
 

@@ -203,6 +203,12 @@ def test_summary_text_handles_missing_data():
     assert "no calorie entries were recorded" in text
 
 
+def test_summary_text_calls_out_a_single_weight_reading():
+    text = formulas.build_summary_text(30, 0.0, "kg", -420.0, weight_readings=1)
+    assert "a single weight entry was recorded" in text
+    assert "unchanged" not in text
+
+
 def test_summary_text_never_claims_causation():
     text = formulas.build_summary_text(30, -1.8, "kg", -420.0)
     for word in ("because", "caused", "due to", "resulted in"):

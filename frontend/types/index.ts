@@ -164,6 +164,9 @@ export interface ProgressSummary {
   unit_label: string;
   starting_average_weight: number | null;
   latest_average_weight: number | null;
+  /** Dates of the first/last weight readings, which are not the window bounds. */
+  starting_weight_date: string | null;
+  latest_weight_date: string | null;
   total_weight_change: number | null;
   total_weight_change_kg: number | null;
   percent_weight_change: number | null;

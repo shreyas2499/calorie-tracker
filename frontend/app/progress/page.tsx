@@ -78,7 +78,7 @@ export default function ProgressPage() {
                     ? formatWeight(data.starting_average_weight, units)
                     : NO_DATA
                 }
-                hint={data.start_date}
+                hint={data.starting_weight_date ?? data.start_date}
               />
               <SummaryCard
                 label="Latest average weight"
@@ -87,7 +87,7 @@ export default function ProgressPage() {
                     ? formatWeight(data.latest_average_weight, units)
                     : NO_DATA
                 }
-                hint={data.end_date}
+                hint={data.latest_weight_date ?? data.end_date}
               />
               <SummaryCard
                 label="Total weight change"

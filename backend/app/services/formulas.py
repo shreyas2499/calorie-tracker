@@ -173,9 +173,12 @@ def build_summary_text(
     weight_change: float | None,
     unit_label: str,
     average_balance: float | None,
+    weight_readings: int = 2,
 ) -> str:
     """Plain-language recap that deliberately avoids implying causation."""
-    if weight_change is None:
+    if weight_readings == 1:
+        first = f"Over the last {total_days} days, a single weight entry was recorded"
+    elif weight_change is None:
         first = f"Over the last {total_days} days, no weight entries were recorded"
     elif weight_change < 0:
         first = (

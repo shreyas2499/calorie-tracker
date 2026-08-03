@@ -86,6 +86,39 @@ def test_saving_a_weight_updates_the_profile_and_maintenance(client, user):
     assert after["active_maintenance_calories"] != before
 
 
+def test_saving_a_weight_restamps_the_same_days_calorie_entry(client, user):
+    """The target for that date changed, so that date's entry must follow."""
+    client.put(
+        "/api/v1/calorie-entries/by-date/2026-07-01",
+        json={"calories_consumed": 2000, "calories_burned": 0},
+    )
+    before = client.get("/api/v1/calorie-entries/by-date/2026-07-01").get_json()["data"]
+    assert before["maintenance_calories"] == 2759
+
+    client.put("/api/v1/weight-entries/by-date/2026-07-01", json={"morning_weight": 78.0})
+
+    after = client.get("/api/v1/calorie-entries/by-date/2026-07-01").get_json()["data"]
+    active = client.get("/api/v1/maintenance").get_json()["data"]["active_maintenance_calories"]
+    assert after["maintenance_calories"] == active
+    assert after["maintenance_calories"] != before["maintenance_calories"]
+    assert after["calorie_balance"] == after["net_calories"] - active
+
+
+def test_other_dates_keep_their_original_snapshot(client, user):
+    client.put(
+        "/api/v1/calorie-entries/by-date/2026-07-01",
+        json={"calories_consumed": 2000, "calories_burned": 0},
+    )
+    client.put(
+        "/api/v1/calorie-entries/by-date/2026-07-02",
+        json={"calories_consumed": 2000, "calories_burned": 0},
+    )
+    client.put("/api/v1/weight-entries/by-date/2026-07-02", json={"morning_weight": 78.0})
+
+    untouched = client.get("/api/v1/calorie-entries/by-date/2026-07-01").get_json()["data"]
+    assert untouched["maintenance_calories"] == 2759
+
+
 def test_delete_a_weight_entry(client, user):
     entry_id = client.post(
         "/api/v1/weight-entries",

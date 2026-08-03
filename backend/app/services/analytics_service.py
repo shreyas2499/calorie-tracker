@@ -148,6 +148,9 @@ def summary(user: User, start: date | None, end: date, today: date | None = None
 
     starting_kg = float(weight_rows[0].average_weight_kg) if weight_rows else None
     latest_kg = float(weight_rows[-1].average_weight_kg) if weight_rows else None
+    # The dates of the readings themselves, which are not the window bounds.
+    starting_weight_date = format_date(weight_rows[0].entry_date) if weight_rows else None
+    latest_weight_date = format_date(weight_rows[-1].entry_date) if weight_rows else None
     change_kg = (
         round(latest_kg - starting_kg, 2)
         if starting_kg is not None and latest_kg is not None
@@ -170,6 +173,8 @@ def summary(user: User, start: date | None, end: date, today: date | None = None
         "unit_system": unit_system,
         "unit_label": unit_label,
         "starting_average_weight": weight_from_kg(starting_kg, unit_system),
+        "starting_weight_date": starting_weight_date,
+        "latest_weight_date": latest_weight_date,
         "latest_average_weight": weight_from_kg(latest_kg, unit_system),
         "total_weight_change": weight_from_kg(change_kg, unit_system) if change_kg is not None else None,
         "total_weight_change_kg": change_kg,
@@ -196,6 +201,7 @@ def summary(user: User, start: date | None, end: date, today: date | None = None
         weight_change=result["total_weight_change"],
         unit_label=unit_label,
         average_balance=avg_balance,
+        weight_readings=len(weight_rows),
     )
     return result
 

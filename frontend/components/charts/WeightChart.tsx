@@ -22,6 +22,9 @@ const SERIES = [
   { key: "rolling_average_7d", name: "7-day average", colour: "#b45309", dashed: true },
 ] as const;
 
+/** Above this many tracked days, point markers become visual noise. */
+const DOT_THRESHOLD = 31;
+
 function WeightTooltip({
   active,
   payload,
@@ -49,6 +52,9 @@ function WeightTooltip({
 }
 
 export function WeightChart({ series }: { series: WeightSeries }) {
+  // A line through a single point draws nothing, so show markers when sparse.
+  const dot = series.tracked_days <= DOT_THRESHOLD ? { r: 2.5 } : false;
+
   if (!series.tracked_days) {
     return (
       <EmptyState
@@ -88,7 +94,7 @@ export function WeightChart({ series }: { series: WeightSeries }) {
               stroke={item.colour}
               strokeWidth={2}
               strokeDasharray={"dashed" in item && item.dashed ? "5 4" : undefined}
-              dot={false}
+              dot={dot}
               connectNulls
               isAnimationActive={false}
             />
