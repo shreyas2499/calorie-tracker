@@ -27,7 +27,8 @@ export class ApiError extends Error {
   }
 }
 
-type Query = Record<string, string | number | boolean | null | undefined>;
+export type QueryValue = string | number | boolean | null | undefined;
+type Query = Record<string, QueryValue>;
 
 export function buildUrl(path: string, query?: Query): string {
   const url = `${API_BASE_URL}${path}`;

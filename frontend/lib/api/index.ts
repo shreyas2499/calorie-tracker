@@ -16,20 +16,27 @@ import type {
   WeightSeries,
 } from "@/types";
 
-export interface RangeQuery {
+/**
+ * Query-parameter shapes.
+ *
+ * These are declared as type aliases rather than interfaces on purpose: only
+ * type aliases get an implicit index signature, which is what lets them be
+ * passed to the client's `Record<string, ...>` query parameter.
+ */
+export type RangeQuery = {
   range?: string;
   start_date?: string;
   end_date?: string;
   today?: string;
-}
+};
 
-export interface ListQuery extends RangeQuery {
+export type ListQuery = RangeQuery & {
   page?: number;
   per_page?: number;
   search?: string;
   sort?: "asc" | "desc";
   all?: boolean;
-}
+};
 
 export const api = {
   health: () => request<{ status: string }>("/health"),

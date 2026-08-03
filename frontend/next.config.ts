@@ -7,6 +7,11 @@ import type { NextConfig } from "next";
  */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  eslint: {
+    // Lint is a development/CI concern (`npm run lint`); a style warning should
+    // not be able to fail a production deploy. Type checking still runs.
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

@@ -62,7 +62,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
   );
 });
 
-interface NumberFieldProps extends TextFieldProps {}
+type NumberFieldProps = TextFieldProps;
 
 /** Number input tuned for mobile keyboards. */
 export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(function NumberField(
@@ -76,7 +76,7 @@ interface SelectFieldProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   error?: string;
   hint?: string;
-  options: ReadonlyArray<{ value: string; label: string }>;
+  options: ReadonlyArray<{ readonly value: string; readonly label: string }>;
 }
 
 export const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function SelectField(

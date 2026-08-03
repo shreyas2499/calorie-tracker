@@ -109,17 +109,17 @@ export function ProfileForm({ profile, onSaved }: ProfileFormProps) {
           {...register("email")}
         />
         <NumberField label="Age" min={13} max={120} error={errors.age?.message} {...register("age")} />
-        <SelectField label="Sex" options={SEX_OPTIONS as never} error={errors.sex?.message} {...register("sex")} />
+        <SelectField label="Sex" options={SEX_OPTIONS} error={errors.sex?.message} {...register("sex")} />
         <SelectField
           label="Unit system"
-          options={UNIT_OPTIONS as never}
+          options={UNIT_OPTIONS}
           hint="Values are always stored in kg and cm."
           error={errors.preferred_unit_system?.message}
           {...register("preferred_unit_system")}
         />
         <SelectField
           label="Activity level"
-          options={ACTIVITY_OPTIONS as never}
+          options={ACTIVITY_OPTIONS}
           error={errors.activity_level?.message}
           {...register("activity_level")}
         />
