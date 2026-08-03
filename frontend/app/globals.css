@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: 255 255 255;
+  --ink: 24 28 35;
+  --muted: 106 114 128;
+  --line: 226 230 237;
+  --accent: 37 99 235;
+  --page: 246 247 250;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: 25 28 34;
+    --ink: 235 238 243;
+    --muted: 156 163 175;
+    --line: 51 57 68;
+    --accent: 96 143 255;
+    --page: 17 19 24;
+  }
+}
+
+html,
+body {
+  background-color: rgb(var(--page));
+  color: rgb(var(--ink));
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide the number-input spinners: they are awkward on mobile. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

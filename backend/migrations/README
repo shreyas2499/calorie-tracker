@@ -1,0 +1,8 @@
+Single-database configuration for Flask (Flask-Migrate / Alembic).
+
+Common commands (run from the backend/ directory with the venv active):
+
+    flask db upgrade                    # apply migrations
+    flask db migrate -m "message"       # autogenerate a new migration
+    flask db downgrade                  # roll back one revision
+    flask db current                    # show the applied revision
