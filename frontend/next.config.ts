@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
+/**
+ * `NEXT_PUBLIC_API_URL` is inlined automatically at build time, so it is not
+ * repeated here. It must be present in the build environment (Railway service
+ * variables, or `.env.local` when developing) — it is never hard-coded.
+ */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // The API base URL is read at build time from the environment; never hard-coded.
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-  },
 };
 
 export default nextConfig;

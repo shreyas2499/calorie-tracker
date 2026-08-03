@@ -41,7 +41,7 @@ Status is always communicated with a text label (`Deficit`, `Surplus`, `At maint
 
 | Layer    | Stack |
 | -------- | ----- |
-| Frontend | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Recharts, React Hook Form, Zod |
+| Frontend | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Recharts, React Hook Form, Zod |
 | Backend  | Python 3.11, Flask (application factory), Flask-SQLAlchemy, Flask-Migrate, Flask-CORS, Pydantic v2, Gunicorn |
 | Database | PostgreSQL |
 | Hosting  | Railway (three services: Postgres, backend, frontend) |
